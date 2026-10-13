@@ -13,8 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   500-event chunk cap), automatic retry with exponential backoff and jitter on
   network errors / 5xx / 429, `Retry-After` handling, and
   `X-RateLimit-Remaining`-aware throttling.
-- `POST /v1/events/bulk` ingestion against the QUANTIQEN SDK edge
-  (`https://api.quantiqen.com` by default).
+- `POST /api/v1/events/bulk` ingestion against the QUANTIQEN platform
+  (`https://quantiqen-backend.onrender.com` by default).
 - Automatic event metadata enrichment (`sdkLanguage`, `sdkVersion`, `userAgent`).
 - Fire-and-forget semantics: `send_event()`/`send_events()` never raise; failures
   are logged via the configurable `logger`.

@@ -30,7 +30,7 @@ from quantiqen_sdk import QuantiqenClient, EventData, ClientOptions
 
 client = QuantiqenClient(ClientOptions(
     api_key="qtn_live_your_api_key_here",
-    base_url="https://api.quantiqen.com",  # optional, this is the default
+    base_url="https://quantiqen-backend.onrender.com",  # optional, this is the default
 ))
 
 # Send a single event (fire-and-forget, never blocks)
@@ -92,7 +92,7 @@ client = QuantiqenClient(ClientOptions(api_key=os.environ["QUANTIQEN_API_KEY"]))
 | Option | Default | Description |
 |--------|---------|-------------|
 | `api_key` | (required) | Your QUANTIQEN API key (`qtn_live_*`, `qtn_test_*`, or `qtn_dev_*`) |
-| `base_url` | `https://api.quantiqen.com` | QUANTIQEN ingestion endpoint — set only for a self-hosted gateway |
+| `base_url` | `https://quantiqen-backend.onrender.com` | QUANTIQEN ingestion endpoint — set only for a self-hosted gateway |
 | `batch_size` | `100` | Events accumulated before auto-flush |
 | `flush_interval_ms` | `5000` | Max time (ms) between flushes |
 | `max_retries` | `3` | Max retry attempts on transient failures |
@@ -100,7 +100,7 @@ client = QuantiqenClient(ClientOptions(api_key=os.environ["QUANTIQEN_API_KEY"]))
 
 ## How It Works
 
-1. **Batching**: Events are accumulated in memory. When the batch reaches `batch_size` or `flush_interval_ms` elapses (whichever comes first), the batch is flushed to the QUANTIQEN ingestion endpoint via `POST /v1/events/bulk`.
+1. **Batching**: Events are accumulated in memory. When the batch reaches `batch_size` or `flush_interval_ms` elapses (whichever comes first), the batch is flushed to the QUANTIQEN ingestion endpoint via `POST /api/v1/events/bulk`.
 
 2. **Retry with backoff**: Transient failures (network errors, 5xx, 429) are retried up to `max_retries` times with exponential backoff (1s, 2s, 4s) plus jitter. The SDK respects `Retry-After` headers from 429 responses.
 
@@ -258,7 +258,7 @@ is optional, not enforced by the platform.
 | `400 INVALID_API_KEY` | Missing header, or key doesn't match `qtn_{live\|test\|dev}_…` | Check the `api_key` option and key value |
 | `422` with field errors | Event DTO validation failed (field names/types) | Compare the error body's `field_errors` with the [Event Schema](#event-schema) and telemetry tables |
 | `429 RATE_LIMITED` | Per-key rate limit hit | SDK already backs off (`Retry-After` respected). Sustained? Raise limits in the platform |
-| `504` / `503` from server | Endpoint slow or down | SDK retries transient failures automatically; check `https://api.quantiqen.com/health` |
+| `504` / `503` from server | Endpoint slow or down | SDK retries transient failures automatically; check `https://quantiqen-backend.onrender.com/api/v1/health` |
 | Events not arriving | Process exited before flush | Register shutdown hooks (see [Graceful Shutdown](#graceful-shutdown)); call `flush()` before exit in scripts |
 | No output when sends "fail" | Fire-and-forget by design | Provide a custom `logger` callable — defaults to `print` |
 
@@ -275,7 +275,7 @@ c.flush()
 c.shutdown()
 ```
 
-Silent logger = the platform accepted the batch. Still nothing? Check network reachability to `https://api.quantiqen.com` first.
+Silent logger = the platform accepted the batch. Still nothing? Check network reachability to `https://quantiqen-backend.onrender.com` first.
 
 ## License
 

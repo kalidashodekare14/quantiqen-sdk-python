@@ -137,7 +137,7 @@ class QuantiqenClient:
         for i in range(0, len(events), MAX_BULK_SIZE):
             chunk = events[i : i + MAX_BULK_SIZE]
             body = {"events": [e.to_dict() for e in chunk]}
-            self._post_with_retry("/v1/events/bulk", body)
+            self._post_with_retry("/api/v1/events/bulk", body)
 
     def _post_with_retry(self, path: str, body: dict[str, Any]) -> Any:
         config = RetryConfig(

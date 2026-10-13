@@ -80,7 +80,7 @@ class TestAuth:
             client.shutdown()
 
             req = mock_open.call_args[0][0]
-            assert req.full_url == "https://custom.api.com/v1/events/bulk"
+            assert req.full_url == "https://custom.api.com/api/v1/events/bulk"
 
 
 class TestResponseHandling:

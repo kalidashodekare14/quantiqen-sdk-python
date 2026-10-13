@@ -65,7 +65,7 @@ class BulkResult:
 @dataclass
 class ClientOptions:
     api_key: str
-    base_url: str = "https://api.quantiqen.com"
+    base_url: str = "https://quantiqen-backend.onrender.com"
     batch_size: int = 100
     flush_interval_ms: int = 5000
     max_retries: int = 3
