@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import re
 import urllib.error
 import urllib.request
 from typing import Any
@@ -27,7 +28,7 @@ from .telemetry import (
     build_span_event,
 )
 
-SDK_VERSION = "0.1.0"
+SDK_VERSION = "0.1.1"
 SDK_LANGUAGE = "python"
 DEFAULT_BATCH_SIZE = 100
 DEFAULT_FLUSH_INTERVAL_MS = 5000
@@ -40,9 +41,9 @@ class QuantiqenClient:
     def __init__(self, options: ClientOptions) -> None:
         if not options.api_key:
             raise ValueError("API key is required")
-        if not options.api_key.startswith("qtn_"):
+        if not re.match(r"qtn_(live|test|dev)_", options.api_key):
             raise ValueError(
-                'Invalid API key format. Expected key starting with "qtn_"'
+                'Invalid API key format. Expected key matching "qtn_{live|test|dev}_…"'
             )
 
         self._api_key = options.api_key

@@ -8,17 +8,11 @@ Client-side batching, automatic retry with exponential backoff, and proactive ra
 
 ## Installation
 
-> Not yet published to PyPI (registry account pending) — install via **git** or a **local path** today.
-
 ```bash
-# Once published to PyPI:
 pip install quantiqen-sdk
 
-# From git (works today):
+# Or from git:
 pip install "git+https://github.com/kalidashodekare14/quantiqen-sdk-python.git@main"
-
-# From a local checkout (editable):
-pip install -e ../quantiqen-sdk-python
 ```
 
 ## Quickstart
@@ -256,6 +250,7 @@ is optional, not enforced by the platform.
 | Symptom | Likely cause | Fix |
 |---|---|---|
 | `400 INVALID_API_KEY` | Missing header, or key doesn't match `qtn_{live\|test\|dev}_…` | Check the `api_key` option and key value |
+| `401 INVALID_API_KEY` | Key is well-formed but not recognized — unknown, revoked, or not provisioned in this environment | Confirm the key exists and is active in your QUANTIQEN organization settings; regenerate if needed and redeploy the new value |
 | `422` with field errors | Event DTO validation failed (field names/types) | Compare the error body's `field_errors` with the [Event Schema](#event-schema) and telemetry tables |
 | `429 RATE_LIMITED` | Per-key rate limit hit | SDK already backs off (`Retry-After` respected). Sustained? Raise limits in the platform |
 | `504` / `503` from server | Endpoint slow or down | SDK retries transient failures automatically; check `https://quantiqen-backend.onrender.com/api/v1/health` |

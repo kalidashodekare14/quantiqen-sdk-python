@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.1] - 2026-10-13
+
+### Added
+
+- Troubleshooting guidance for `401 INVALID_API_KEY` (well-formed but
+  unknown/revoked key — check the key exists and is active in the
+  organization settings).
+
+### Changed
+
+- API-key validation now enforces the full platform contract
+  `qtn_{live|test|dev}_…` client-side, so a malformed key fails instantly
+  with a clear error instead of a server round-trip.
+- README: removed the stale "not yet published to PyPI" notice;
+  `quantiqen-sdk` installs from the public registry.
+
 ## [0.1.0] - 2026-10-12
 
 ### Added
@@ -33,4 +49,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `flush()` now drains the entire event queue instead of a single batch.
 - A `Retry-After` pause is no longer re-applied after it has elapsed.
 
+[0.1.1]: https://github.com/kalidashodekare14/quantiqen-sdk-python/releases/tag/v0.1.1
 [0.1.0]: https://github.com/kalidashodekare14/quantiqen-sdk-python/releases/tag/v0.1.0

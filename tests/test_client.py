@@ -31,10 +31,23 @@ class TestConstruction:
         with pytest.raises(ValueError, match="Invalid API key format"):
             QuantiqenClient(ClientOptions(api_key="invalid_key"))
 
+    def test_throws_on_unknown_qtn_prefix(self):
+        with pytest.raises(ValueError, match="Invalid API key format"):
+            QuantiqenClient(ClientOptions(api_key="qtn_bogus_abc123"))
+
     def test_accepts_valid_key(self):
         client = QuantiqenClient(ClientOptions(api_key=VALID_KEY))
         assert client is not None
         client.shutdown()
+
+    def test_accepts_test_and_dev_keys(self):
+        for key in (
+            "qtn_test_abc123def456ghi789jkl012mno345pqr",
+            "qtn_dev_abc123def456ghi789jkl012mno345pqr",
+        ):
+            client = QuantiqenClient(ClientOptions(api_key=key))
+            assert client is not None
+            client.shutdown()
 
 
 class TestAuth:
@@ -130,7 +143,7 @@ class TestResponseHandling:
             meta = body["events"][0]["metadata"]
             assert meta["customField"] == "customValue"
             assert meta["sdkLanguage"] == "python"
-            assert meta["sdkVersion"] == "0.1.0"
+            assert meta["sdkVersion"] == "0.1.1"
             assert "quantiqen-sdk-python" in meta["userAgent"]
 
 

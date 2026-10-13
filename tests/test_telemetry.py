@@ -299,7 +299,7 @@ class TestClientTelemetry:
             assert UUID_RE.match(event["idempotencyKey"])
             assert event["payload"]["telemetryType"] == "metric"
             assert event["metadata"]["sdkLanguage"] == "python"
-            assert event["metadata"]["sdkVersion"] == "0.1.0"
+            assert event["metadata"]["sdkVersion"] == "0.1.1"
         finally:
             client.shutdown()
 
